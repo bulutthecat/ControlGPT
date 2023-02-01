@@ -9,7 +9,7 @@ TalkGPT provides access to the following functions:
    1. Chat with ChatGPT using speech recognition and Microsoft Bob
    2. Open web pages with simple queries such as, "Hey Hal, open a video streaming website."
    3. Create, edit, and manage files and system applications through voice commands such as, "Hey Hal, create a text file on my desktop."
-   4. Run ChatGPT generated one-liner python scripts such as, "Hey Hal, make a sound out of my speakers using python."
+   4. Run ChatGPT generated one-liner python scripts such as easy as, "Hey Hal, make a sound out of my speakers using python."
    5. Search for system-wide applications and files using your voice, "Hey Hal, search locally for Firefox."
    6. Send emails through Gmail with a command like, "Hey Hal, send an email to dev@gmail.com with the text 'Hi, how are you.'"
    7. Control household appliances like smart plugs and bulbs.
