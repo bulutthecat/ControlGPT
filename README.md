@@ -28,3 +28,4 @@ Some things to note:
 3. Only works on windows, unless somebody else wants to port it to linux (Wine is not tested and will not be supported officually in the near future)
 
 # Quick Start Guide
+You can find the guide in the Wiki section above.
