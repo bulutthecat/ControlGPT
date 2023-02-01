@@ -22,4 +22,9 @@ The response from ChatGPT is then checked for the necessary parameters to execut
 
 The entire program relies on ChatGPT, which can be advantageous. If you provide a vague argument, ChatGPT will do its best to understand what you mean and deliver a good result. For instance, if you say "search the system for a web browser," it might output "SEARCH-Chrome," which would find and launch Chrome, even if you didn't mention the specific name of the browser.
 
+Some things to note:
+1. ChatGPT will remember what you said if you specified a conversation ID, even after a full restart; meaning that if you have a preferance it will remember it.
+2. ChatGPT has acess to local Command line, meaning it can cause damage if you are not carefull, although if you tell it to do something like delete system32 it will tell you that that is a bad idea, and not execute the command.
+3. Only works on windows, unless somebody else wants to port it to linux (Wine is not tested and will not be supported officually in the near future)
+
 # Quick Start Guide
