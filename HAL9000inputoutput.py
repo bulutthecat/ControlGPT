@@ -10,6 +10,8 @@ import time
 import keyring
 import gkeepapi
 from redmail import gmail
+global email_2
+global storegmail_2
 global newconv
 global storegmail
 global storepassword
@@ -24,6 +26,9 @@ global app_password
 app_password=""
 noteid=0
 verson="1.7"
+def error(e):
+    font.gen("error")
+    print(e)
 def sendkey(key):
     os.system('echo >script.vbs set shell = CreateObject("WScript.Shell"):shell.SendKeys "'+key+'" & start script.vbs')
 def say(text):
@@ -31,7 +36,8 @@ def say(text):
 def clear():
     os.system("cls")
 def loadingani():
- while loading==True:
+ timer=61
+ while loading==True and timer>60:
     clear()
     font.gen(loadingtext+" .")
     time.sleep(0.25)
@@ -44,6 +50,7 @@ def loadingani():
     clear()
     font.gen(loadingtext+"<")
     time.sleep(0.25)
+    timer=timer-1
  clear()
 chatgptflag = False
 if __name__ == "__main__":
@@ -54,8 +61,7 @@ if __name__ == "__main__":
         exec(open("HALTEST.py").read())
 def sendrule():
     if chatgptflag == True and conversation_id is None:
-        font.gen("ERROR")
-        print("please enter rules.")
+        error("Please enter rules")
 def incode(a):
     x=0
     b=a+"#"
@@ -71,7 +77,7 @@ def get_password_and_gmail():
             data = json.load(json_file)
     except FileNotFoundError:
         data = {}
-    if 'storepassword' not in data or 'storegmail' not in data or 'storeid' not in data:
+    if 'storepassword' not in data or 'storegmail' not in data or 'storeid' not in data or 'storegmail2' not in data:
         
         say("Welcome to the HAL engine")
         font.gen(" <setup> ")
@@ -79,25 +85,44 @@ def get_password_and_gmail():
         storepassword = input('Please enter your password: ')
         storegmail = input('Please enter your gmail: ')
         storeid = input('Please enter your conversation ID: ')
-        app_password=input("Please enter your app password: ")
+        storegmail_2 = input('please enter your second gmail for in-built gmail notifications and messaging')
+        app_password = input("Please enter your app password from your second email (read docs): ")
+        
         data['storepassword'] = incode(storepassword)
         data['storegmail'] = incode(storegmail)
         data['storeid'] = storeid
         data['storeapppass'] = incode(app_password)
-        data["username"]=incode(os.environ.get('username'))
+        data['username']=incode(os.environ.get('username'))
+        data['storegmail2'] = incode(storegmail_2)
         with open('data.json', 'w') as json_file:
             json.dump(data, json_file)
     else:
-        storepassword = incode(data['storepassword'])
-        storegmail = incode(data['storegmail'])
-        storeid = data['storeid']
-        app_password=incode(data['storeapppass'])
-        username=incode(os.environ.get('username'))
-        if data["username"]!=username:os.system("del data.json")
-        if data["username"]!=username:return get_password_and_gmail()
-    return storepassword,storegmail,storeid,app_password
+        try:
+            storepassword = incode(data['storepassword'])
+            storegmail = incode(data['storegmail'])
+            storeid = data['storeid']
+            app_password = incode(data['storeapppass'])
+            username = incode(os.environ.get('username'))
+            email_2 = incode(data['storegmail2'])
+            if data["username"]!=username:os.system("del data.json")
+            if data["username"]!=username:return get_password_and_gmail()
+        except Exception as e:
+            error(e)
+            say("invalid Json format or data detected, deleting json file. please re-enter credentials.")
+            os.system("del /f data.json")
+            get_password_and_gmail()
+    return storepassword,storegmail,storeid,app_password,email_2
 
-password, email, conversation_id,app_password = get_password_and_gmail()
+password,email,conversation_id,app_password,email_2 = get_password_and_gmail()
+
+#Of course you need to configure your Gmail account (don't worry, it's simple):
+
+#    Set up 2-step-verification (if not yet set up) (https://support.google.com/accounts/answer/185839?hl=en&co=GENIE.Platform%3DAndroid)
+#    Create an Application password (https://support.google.com/accounts/answer/185833?hl=en)
+#    You can do this by going to your google accounts settings and searching for "app password" and selecting the option. once you have done that you can select mail, then windows desktop. copy the output and paste.
+#    Put the Application password to the gmail object and done!
+
+#Red Mail is actually pretty extensive (include attachments, embed images, send with cc and bcc, template with Jinja etc.) and should hopefully be all you need from an email sender. It is also well tested and documented. I hope you find it useful.
 
 # egekevindalli@gmail.com
 
@@ -223,27 +248,32 @@ def defget(userinput):
                     x=0
                     keep.sync()
             if (command.startswith ("MAIL-")):
+             try:
                 global app_password
-                gmail.username = email
+                gmail.username = email_2
                 gmail.password = app_password
+                print (gmail.username)
+                print (gmail.password)
                 # Send an email
                 keepscom=command.split("AIL-")[1]
                 if(keepscom.replace("SpLiThErE","")==keepscom):keepscom=keepscom+"SpLiThErEblank note"
                 note = keep.createNote(keepscom.split("SpLiThErE"))
+                print([note[0]])
+                print(note[1])
                 gmail.send(
                 subject="An example email",
                 receivers=[note[0]],
                 text=note[1],
                 html=""
                 )
-                
+             except Exception as e:
+                error(e)
+                say("EMAIL failed to send")
             if (command.startswith("KEYPRESS-")):
                keypress=command.split("EYPRESS-")[1]
                sendkey(keypress)
-
             if(iscom==0):
                 say(resp['message'])
         except Exception as e:
-            font.gen("error")
-            print(e)
+            error(e)
     return resp

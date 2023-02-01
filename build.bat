@@ -18,6 +18,7 @@ del /f setup.inf
 del /f setup.rpt
 del /f script.vbs
 del cf_failed_*.png
+del login_failed.png
 del *.bak
 del makecabcode
 rd /s /q __pycache__

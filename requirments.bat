@@ -2,6 +2,7 @@
 if "%1"=="fix" goto :a
 echo Check addons?
 CHOICE /C YN /t 5 /d y
+timeout 0
 if %errorlevel%==2 goto a
 
 echo Checking for missing py addons
@@ -11,6 +12,7 @@ pip install pyaudio>nul
 pip install pyautogui>nul
 pip install gkeepapi>nul
 pip install keyring>nul
+pip install redmail>nul
 :a
 echo Checking for missing core files
 if not exist hal.cab echo hal.cab is missing
