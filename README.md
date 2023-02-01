@@ -29,3 +29,5 @@ Some things to note:
 
 # Quick Start Guide
 You can find the guide in the Wiki section above.
+Or here:
+https://github.com/bulutthecat/TalkGPT/wiki
