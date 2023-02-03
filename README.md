@@ -30,4 +30,4 @@ Some things to note:
 # Quick Start Guide
 You can find the guide in the Wiki section above.
 Or here:
-[https://github.com/bulutthecat/TalkGPT/wiki](https://github.com/bulutthecat/TalkGPT/wiki/Basic-Usage---Quick-Start)
+https://github.com/bulutthecat/TalkGPT/wiki/Basic-Usage---Quick-Start
