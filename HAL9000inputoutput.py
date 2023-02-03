@@ -124,8 +124,6 @@ password,email,conversation_id,app_password,email_2 = get_password_and_gmail()
 
 #Red Mail is actually pretty extensive (include attachments, embed images, send with cc and bcc, template with Jinja etc.) and should hopefully be all you need from an email sender. It is also well tested and documented. I hope you find it useful.
 
-# egekevindalli@gmail.com
-
 # Create a Chat object
 loading=True
 loadingtext="loading"
