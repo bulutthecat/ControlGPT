@@ -31,6 +31,7 @@ LIGHT2 = "0002"
 LIGHT3 = "0003"
 LIGHT4 = "0004"
 exited=0
+noteid=0
 while True:
     try:
         print("Listening")
@@ -65,7 +66,7 @@ while True:
                     text = get_audio()
                 elif text.startswith(WAKE):
                     text=text.split(WAKE)[1]
-                defget(text)
+                resp,noteid=defget(text,noteid)
         if text.count(SHUTDOWN) > 0:
             winsound.Beep(500,200);winsound.Beep(200,200)
             exited=1
