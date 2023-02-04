@@ -10,6 +10,7 @@ del makecabcode
 move disk1\1.cab 1.cab
 rd /q /s disk1
 ren 1.cab hal.cab
+if not exist oldhal.cab copy hal.cab oldhal.cab
 call :a
 cls
 :a
