@@ -24,8 +24,8 @@ global noteid
 global app_password
 global sayoutput
 global overridechat
-overridechat=False
 #set globals
+overridechat=False
 app_password=""
 noteid=0
 verson="1.9"
@@ -256,6 +256,13 @@ def defget(userinput,noteid):
                iscom=1
                keypress=command.split("EYPRESS-")[1]
                sendkey(keypress)
+            if (command.startswith("LIST-")):
+               iscom=1
+               dircom=command.split("LIST-")[1]
+               dircom=",".join(os.listdir(dircom)).replace(".lnk","")
+               print(dircom)
+               if(overridechat==False):
+                api.send_message("the output is "+dircom)
 
             if(iscom==0 and sayoutput=="True"):
                 say(command)
