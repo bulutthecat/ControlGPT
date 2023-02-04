@@ -21,6 +21,7 @@ global command
 import threading
 global noteid
 global app_password
+global sayoutput
 app_password=""
 noteid=0
 verson="1.7"
@@ -83,6 +84,7 @@ def get_password_and_gmail():
         data['storepassword'] = incode(storepassword)
         data['storegmail'] = incode(storegmail)
         data['storeid'] = storeid
+        data['sayoutput'] = "True"
         data['storeapppass'] = incode(app_password)
         data["username"]=incode(os.environ.get('username'))
         with open('data.json', 'w') as json_file:
@@ -91,13 +93,20 @@ def get_password_and_gmail():
         storepassword = incode(data['storepassword'])
         storegmail = incode(data['storegmail'])
         storeid = data['storeid']
+        try:
+            sayoutput=data['sayoutput']
+        except:
+            sayoutput="True"
+            data['sayoutput']="True"
         app_password=incode(data['storeapppass'])
         username=incode(os.environ.get('username'))
         if data["username"]!=username:os.system("del data.json")
         if data["username"]!=username:return get_password_and_gmail()
-    return storepassword,storegmail,storeid,app_password
+        with open('data.json', 'w') as json_file:
+            json.dump(data, json_file)
+    return storepassword,storegmail,storeid,app_password,sayoutput
 
-password, email, conversation_id,app_password = get_password_and_gmail()
+password, email, conversation_id,app_password,sayoutput = get_password_and_gmail()
 
 # egekevindalli@gmail.com
 
@@ -239,7 +248,7 @@ def defget(userinput,noteid):
                keypress=command.split("EYPRESS-")[1]
                sendkey(keypress)
 
-            if(iscom==0):
+            if(iscom==0 and sayoutput=="True"):
                 say(resp['message'])
         except Exception as e:
             font.gen("error")
