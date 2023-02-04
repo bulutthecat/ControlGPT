@@ -7,6 +7,8 @@ import font
 from HAL9000inputoutput import say
 import sys
 import winsound
+global overridechat
+overridechat=False
 def get_audio():
         r = sr.Recognizer()
         with sr.Microphone() as source:
@@ -35,7 +37,10 @@ noteid=0
 while True:
     try:
         print("Listening")
-        text = get_audio().lower()
+        if(overridechat==False):
+         text = get_audio().lower()
+        else:
+         text=input()
         x=0
         if(text==SETUP or text==SETUP2):
             winsound.Beep(200,10)
@@ -63,7 +68,10 @@ while True:
                 if text==WAKE:
                     print ("detecting:")
                     winsound.Beep(500,200)
-                    text = get_audio()
+                    if(overridechat==False):
+                     text = get_audio().lower()
+                    else:
+                     text=input()
                 elif text.startswith(WAKE):
                     text=text.split(WAKE)[1]
                 resp,noteid=defget(text,noteid)
