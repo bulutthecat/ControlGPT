@@ -10,6 +10,7 @@ import time
 import keyring
 import gkeepapi
 from redmail import gmail
+#imports
 global newconv
 global storegmail
 global storepassword
@@ -22,16 +23,22 @@ import threading
 global noteid
 global app_password
 global sayoutput
+#set globals
 app_password=""
 noteid=0
-verson="1.7"
+verson="1.8"
+
 def sendkey(key):
+    #send a key using vbs
     os.system('echo >script.vbs set shell = CreateObject("WScript.Shell"):shell.SendKeys "'+key+'" & start script.vbs')
 def say(text):
+    #the current tts engine
     os.system('start "" mshta vbscript:Execute("CreateObject(""SAPI.SpVoice"").Speak(""'+text.replace("\n",".").replace("'"," ").replace('"'," ")+'"")(window.close)")')
 def clear():
+    #...
     os.system("cls")
 def loadingani():
+ #replacement for animation.py
  while loading==True:
     clear()
     font.gen(loadingtext+" .")
@@ -108,7 +115,6 @@ def get_password_and_gmail():
 
 password, email, conversation_id,app_password,sayoutput = get_password_and_gmail()
 
-# egekevindalli@gmail.com
 
 # Create a Chat object
 loading=True
