@@ -65,3 +65,6 @@ answer:MAIL-user@example.comSpLiThErEhi
 to run vbs code use the folowing formating:
 question:make a msgbox that says hi using vbs
 answer:COMmand-start "" mshta vbscript:Execute("msgbox(""hi"")(window.close)")
+to list a directory/folder use the folowing format:
+question:list C:\users
+answer:LIST-C:\users
