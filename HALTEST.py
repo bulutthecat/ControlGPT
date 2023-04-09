@@ -22,7 +22,7 @@ def get_audio():
 
 SHUTDOWN = "process exit"
 #WAKES=["hey google","ok google","google activate"]
-WAKES=["hey how","ok how","how activate","hey hal","ok hal","hal activate"]
+WAKES=["hey how", "ok how", "how activate", "hey Hal", "ok Hal", "Hal activate", "hey house", "ok house", "hey hal", "ok hal"]
 SETUP = "how setup"
 SETUP2 = "how set up"
 # keys for activating stuff
