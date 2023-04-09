@@ -1,3 +1,15 @@
+# EMERGENCY BUILDS & PATCHES
+Currently, the API that TalkGPT is running on is not supported, and does not function. An emergency patch is released although some changes have been made that might effect the end user:
+
+1. you do not need to provide your Gmail or other account information, 
+2. you will only be prompted with your password (which is now replaced by an access token available here: https://chat.openai.com/api/auth/session
+3. Conversation ID is not needed and has not been tested in the patched builds, it might not work, although a workaround has been implemented in case it does not. do not expect
+ChatGPT to remember your messages
+4. Email support is not working, so we have temporarily removed it
+5. (forgot this one) make shure to run build, it is not needed to launch the program, but makes shure that there are no corrupted files later on, and will automatically replace corrupted files with correct ones.
+
+Everything other then that is currently the same, be shure to check the documentation below, although outdated it will tell you about everything else.
+
 # TalkGPT - An AI Voice Assistant
 
 TalkGPT is an advanced AI voice assistant built on ChatGPT. It enables users to interact with their devices through voice commands. With TalkGPT, you can open web pages, execute commands, run python scripts, and even control household appliances with just your voice.
