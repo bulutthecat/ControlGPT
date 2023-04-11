@@ -1,5 +1,4 @@
 @echo off
-if not "%cd:~-3%"=="hal" exit
 if "%1"=="clean" goto :a
 call :a
 del oldhal.cab
@@ -11,7 +10,9 @@ move disk1\1.cab 1.cab
 rd /q /s disk1
 ren 1.cab hal.cab
 if not exist oldhal.cab copy hal.cab oldhal.cab
-call :a
+REM cmd:we need to relable this(/|\)
+copy *.py *.py.bak
+exit
 cls
 :a
 echo Cleaning trash

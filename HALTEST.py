@@ -1,13 +1,13 @@
 import os
-os.system("requirments.bat")
 from HAL9000inputoutput import defget
 from HAL9000inputoutput import get_password_and_gmail
 import speech_recognition as sr
 import font
 from HAL9000inputoutput import say
 import sys
-import winsound
-global overridechat
+from HAL9000inputoutput import make_sound
+import json
+global overridechat, wakes, setup, setup2
 overridechat=False
 def get_audio():
         r = sr.Recognizer()
@@ -22,10 +22,31 @@ def get_audio():
 
 SHUTDOWN = "process exit"
 #WAKES=["hey google","ok google","google activate"]
-WAKES=["hey how", "ok how", "how activate", "hey Hal", "ok Hal", "Hal activate", "hey house", "ok house", "hey hal", "ok hal"]
-SETUP = "how setup"
-SETUP2 = "how set up"
 # keys for activating stuff
+
+def get_settings():
+    default_data = {
+        "wakes": ["hey how", "ok how", "how activate", "hey Hal", "ok Hal", "Hal activate", "hey house", "Hey House", "hey House", "ok house", "hey hal", "ok hal"],
+        "setup": "how setup",
+        "setup2": "how set up"
+    }
+
+    try:
+        with open('settings.json', 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        # File does not exist, return default data
+        return default_data
+
+    # File exists, return data from the file
+    return data["wakes"], data["setup"], data["setup2"]
+
+wakes, setup, setup2 = get_settings()
+
+print(f"wakes = {wakes}")
+print(f"setup = {setup}")
+print(f"setup2 = {setup2}")
+
 CMD = "0000"
 DOOR1 = "0005"
 LIGHT1 = "0001"
@@ -42,11 +63,11 @@ while True:
         else:
          text=input()
         x=0
-        if(text==SETUP or text==SETUP2):
-            winsound.Beep(200,10)
-            winsound.Beep(150,10)
-            winsound.Beep(100,10)
-            winsound.Beep(50,10)
+        if(text==setup or text==setup2):
+            make_sound(200,10)
+            make_sound(150,10)
+            make_sound(100,10)
+            make_sound(50,10)
             
             say("are you sure?")
             font.gen("Y / N")
@@ -61,13 +82,13 @@ while True:
             if(text=="y"):
                 os.system("del /f data.json")
                 get_password_and_gmail()
-        while(x<len(WAKES)):
-            WAKE=WAKES[x]
+        while(x<len(wakes)):
+            WAKE=wakes[x]
             x=x+1
             if text.startswith(WAKE):
                 if text==WAKE:
                     print ("detecting:")
-                    winsound.Beep(500,200)
+                    make_sound(500,200)
                     if(overridechat==False):
                      text = get_audio().lower()
                     else:
@@ -76,7 +97,8 @@ while True:
                     text=text.split(WAKE)[1]
                 resp,noteid=defget(text,noteid)
         if text.count(SHUTDOWN) > 0:
-            winsound.Beep(500,200);winsound.Beep(200,200)
+            make_sound(500,200)
+            make_sound(200,200)
             exited=1
             exit()
         print(text)
