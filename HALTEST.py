@@ -21,7 +21,7 @@ def get_audio():
         return said.lower()
 
 SHUTDOWN = "process exit"
-#WAKES=["hey google","ok google","google activate"]
+#WAKES=["hey google","ok google","google activate"] - Works better, but its a knockoff so I refuse to use it
 # keys for activating stuff
 
 def get_settings():

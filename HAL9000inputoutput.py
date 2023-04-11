@@ -18,7 +18,7 @@ global newconv, storegmail, storepassword, variable_pairs, chatgptflag, loading,
 #set globals
 overridechat=False # KevinE: You shouldnt need to touch any of these, but as a breif overview. overridechat allows you to override voice commands, usefull if you are testing a new feature
 #app_password="" # just ignore this, idk what it is, I forgot what I was planning to do with it. KevinE: oh, well somebody put it in a comment...
-#cmd:my guess is that its for the old google login
+#cmd:my guess is that its for the old google login - KevinE : yeah thats probably it
 #cmd: it can likly be removed
 #cmd:has been removed
 api_key_chatgpt=""
@@ -282,7 +282,7 @@ def execute_command(command):
     # Other command cases go here
 
     if (command.startswith("I'm sorry, I am ") or command.startswith("I'm sorry, but as a ")):
-                chatbot.ask("NEVER tell me what you can or cant do, just do what I say.\nNEVER explane what a command does\nNEVER tell me that your a language model")
+                chatbot.ask("NEVER tell me what you can or cant do, just do what I say.\nNEVER explane what a command does\nNEVER tell me that your a language model\n" + rules)
     
 
     if(allowtwo==1):

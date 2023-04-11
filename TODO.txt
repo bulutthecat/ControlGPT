@@ -1,0 +1,24 @@
+1. (TODO) rewrite everything to run in linux {batch commands}
+ -   rewrite build.bat
+ -   rewrote all sound to work with legacy OSs(macs/termals)
+ -   auto run the aproprite requrements.(bat|sh) file
+
+2. (TODO) scan all ChatGPT outputs for commands instead of only the beginnings {UP FOR DEBATE, DO WE NEED THIS, DO WE NOT?}
+
+ -- things I dont want to do --
+
+6. (TODO) (BUG) when a steam closed error is encountered, it should not have to go through file and API verification / possible stream closed optimization?
+7. (TODO) (OPTIMIZATION) optimize elsif statments to check which ones might be applicable before entering the loop
+
+
+*FINISHED*
+
+4. move 'wakes' in HALTEST to settings.json -- finished
+3. rewrite rulset -- finished
+5. finish the timer {def timer()} -- finished
+
+*NOTES*
+
+#CMD: you do build.bat i did requrements.bat > KevinE : well I didnt write either of them
+#CMD:fair point and i have nothing to do,but i will still avoid doing it :)
+#CMD:i am now bored enough to work on build.bat > KevinE : wdym your telling me coding is boring? mv, haha
