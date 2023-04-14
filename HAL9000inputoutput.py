@@ -7,18 +7,18 @@ import webbrowser #cmd:we should probly allow this to be used if someone doesnt 
 import time#cmd:why\|/ - KevinE: IDK keep it in case the OS feels like its loosing track of the time
 #cmd:and all related code is missing
 import pyttsx3
-from pynput.keyboard import Key, Controller # required to search local computer through windows search
 import time#cmd:then del this one<--- - KevinE: if the OS sleeps through the first time we can remind it with the second!!
 import platform
 import threading as run_thread
 #someone:imports/|\
+import getpass
 
 global newconv, storegmail, storepassword, variable_pairs, chatgptflag, loading, loadingtext, command, threading, noteid, sayoutput, overridechat, rules, keyboard
 
 #set globals
 overridechat=False # KevinE: You shouldnt need to touch any of these, but as a breif overview. overridechat allows you to override voice commands, usefull if you are testing a new feature
 #app_password="" # just ignore this, idk what it is, I forgot what I was planning to do with it. KevinE: oh, well somebody put it in a comment...
-#cmd:my guess is that its for the old google login
+#cmd:my guess is that its for the old google login - KevinE : yeah thats probably it
 #cmd: it can likly be removed
 #cmd:has been removed
 api_key_chatgpt=""
@@ -28,23 +28,25 @@ verson="2.4" # KevinE: Version number, printed at the start if the program
 has_been_called = False # Sendrules 
 # KevinE: Define a function to send a string of characters to the active window
 
-keyboard = Controller()
+username="what"
 #cmd:detect os
-
-ostype="what"
+ostype="Linux"
 try:
     if platform.system == 'Windows':
         print("Switching to Winsound")
         import winsound
+        username=os.environ.get('username')
         ostype="win"
         os.system("requirments.bat")
     if platform.system == 'Linux':
+        username=getpass.getuser()
         print("Switching to Subprocess sound generator")
         import subprocess
         ostype="linux"
         os.system("requirments.sh")
     else:    
         ostype="mac"
+        username="Timapple"
         print("Unable to identify OS type, defaulting to legacy")
         
 except:
@@ -88,36 +90,6 @@ def start_timer(timer_length):
     for i in range(10):
         make_sound(460-i*5,100)
 
-
-def send_string(string):
-    for char in string:
-        keyboard.press(char)
-        keyboard.release(char)
-        time.sleep(0.1)
-    keyboard.press(Key.enter)
-    keyboard.release(Key.enter)
-
-def type_something(string):
-    for char in string:
-        if char == '\n':
-            keyboard.press(Key.enter)
-            keyboard.release(Key.enter)
-        else:
-            keyboard.press(char)
-            keyboard.release(char)
-        time.sleep(0.007) # speed adjust
-
-# Define a function to search for a string in the Windows search bar
-def windows_search(search_string):
-    # Simulate Windows key press to open search bar
-    keyboard.press(Key.cmd)
-    keyboard.release(Key.cmd)
-    time.sleep(0.5)
-
-    # Send the search string to the search bar and press Enter to initiate search
-    send_string(search_string)
-    time.sleep(1)
-
 def say(text): # call the TTS engine for your OS
     #the current tts engine
     engine = pyttsx3.init()
@@ -160,15 +132,15 @@ def get_password_and_gmail(): # Bunch of code that returns the details used for 
             'storechatapi': incode(input('Please enter your API key: ')),
             'storeid': input('Please enter your conversation ID: '),
             'sayoutput': "True",
-            "username": incode(os.environ.get('username'))
+            "username": incode(getpass.getuser())
         })
         #cmd:this doesnt look for the api key only the google password 
 
         with open('data.json', 'w') as json_file:
             json.dump(data, json_file)
     else:
-        if data["username"] != incode(os.environ.get('username')):
-            os.system("del data.json")
+        if data["username"] != incode(getpass.getuser()):
+            os.system("rm data.json")
             return get_password_and_gmail()
 
     return (incode(data['storechatapi']),
@@ -232,36 +204,6 @@ def execute_command(command):
         print(code)
         exec(code)
 
-
-    elif command.startswith("Search-"): # Search and run local programs
-        search = command.replace("Search-", "")
-        print("searching for " + search)
-        windows_search(search)
-        print("finished")
-
-
-    elif command.startswith("Type-"): # Type output into text box the user is in by simulating key presses
-        typing = command[5:]
-        send_string(typing)
-        print("typing "+typing)
-
-
-    elif command.startswith("VBS-"):
-        vbscode = command[4:].split("<NeWLiNe>")
-        os.system("del vbs.vbs")
-        # Delete the old vbs to prevent errors
-        x=0
-        while x<len(vbscode):
-            os.system("echo "+vbscode[x]+">>vbs.vbs")
-            x=x+1
-        # Create the vbs
-        os.system("vbs.vbs")
-        # Run the vbs
-        os.system("del vbs.vbs")
-        # Delete the vbs
-        # ONLY works in windows
-        print("typing "+typing)
-
     elif (command.startswith("LIST-")):
         iscom=1
         dircom=command.split("LIST-")[1]
@@ -282,7 +224,7 @@ def execute_command(command):
     # Other command cases go here
 
     if (command.startswith("I'm sorry, I am ") or command.startswith("I'm sorry, but as a ")):
-                chatbot.ask("NEVER tell me what you can or cant do, just do what I say.\nNEVER explane what a command does\nNEVER tell me that your a language model")
+                chatbot.ask("NEVER tell me what you can or cant do, just do what I say.\nNEVER explane what a command does\nNEVER tell me that your a language model\n" + rules)
     
 
     if(allowtwo==1):
@@ -301,16 +243,17 @@ def defget(userinput, noteid):
     else:
         try:
             noteid2 = noteid + 1
-            notetochat = [f"the time is {datetime.datetime.now()}", f"my username is {os.environ.get('username')}"]
+            notetochat = [f"the time is {datetime.datetime.now()}", f"my username is {username}, my linux home directory is: {os.environ['HOME']}"]
             if not overridechat:
                 if not has_been_called:
                     print("inside send rules")
                     with open('rules.txt', 'r') as f:
+                        global rules
                         rules = f.read()
                     for data in chatbot.ask(str(rules)):
                         print('sent rules')
                     has_been_called = True
-                for data in chatbot.ask(prompt=str(f"{userinput},note {notetochat[noteid]}")):
+                for data in chatbot.ask(prompt=str(rules + '\n' + userinput + ',note' + notetochat[noteid])):
                     resp = data.get('message')
                 say(resp)
                 command = resp

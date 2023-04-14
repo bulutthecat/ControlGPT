@@ -1,32 +1,61 @@
-echo "Check addons?"
+#!/bin/bash
 
-echo "Check for missing py addons y/n"
-read varname
-if [$varname=="y"];then
-pip install SpeechRecognition
-pip install pyChatGPT
-pip install pyaudio
-pip install pyautogui
-pip install revChatGPT
-fi
-echo "Checking for missing core files"
-read varname
-if [$varname=="y"];then
-checkandfix("font.py")
-checkandfix("data.json")
-checkandfix("build.bat")
-checkandfix("HALTEST.py")
-
-checkandfix("HAL9000inputoutput.py")
-fi
-
-checkandfix(file){
-isfound=0
-if test -e $file
-then
-isfound=1
-fi
-if [$isfound==0];then;echo "${file} is not found";fi
-if [$isfound==0];then;if -e "${file}.bak";then;mv "${file}.bak" $file;fi;fi
+# Define the checkandfix function
+checkandfix() {
+    file="$1"
+    isfound=0
+    if test -e "$file"; then
+        isfound=1
+    fi
+    if [ $isfound -eq 0 ]; then
+        echo "${file} is not found"
+    fi
+    if [ $isfound -eq 0 ]; then
+        if test -e "${file}.bak"; then
+            mv "${file}.bak" "$file"
+        fi
+    fi
 }
-read varname
+
+# Prompt the user to check for missing addons
+echo "Check addons?"
+echo "Check for missing Python addons (SpeechRecognition, pyaudio, pyautogui, revChatGPT) y/n"
+
+# Input validation for the addons check
+while true; do
+    read -r varname
+    if [ "$varname" == "y" ] || [ "$varname" == "n" ]; then
+        break
+    else
+        echo "Invalid input. Please enter y or n."
+    fi
+done
+
+if [ "$varname" == "y" ]; then
+    # Install the required Python addons
+    pip install SpeechRecognition pyaudio pyautogui revChatGPT SpeechRecognition
+    sudo apt install espeak
+fi
+
+# Prompt the user to check for missing core files
+echo "Checking for missing core files"
+echo "Check for missing core files (font.py, data.json, build.bat, HALTEST.py, HAL9000inputoutput.py) y/n "
+
+# Input validation for the core files check
+while true; do
+    read -r varname
+    if [ "$varname" == "y" ] || [ "$varname" == "n" ]; then
+        break
+    else
+        echo "Invalid input. Please enter y or n."
+    fi
+done
+
+if [ "$varname" == "y" ]; then
+    # Check and fix the core files
+    checkandfix "font.py"
+    checkandfix "data.json"
+    checkandfix "build.bat"
+    checkandfix "HALTEST.py"
+    checkandfix "HAL9000inputoutput.py"
+fi

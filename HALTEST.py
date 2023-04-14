@@ -21,7 +21,7 @@ def get_audio():
         return said.lower()
 
 SHUTDOWN = "process exit"
-#WAKES=["hey google","ok google","google activate"]
+#WAKES=["hey google","ok google","google activate"] - Works better, but its a knockoff so I refuse to use it
 # keys for activating stuff
 
 def get_settings():
@@ -47,12 +47,7 @@ print(f"wakes = {wakes}")
 print(f"setup = {setup}")
 print(f"setup2 = {setup2}")
 
-CMD = "0000"
-DOOR1 = "0005"
-LIGHT1 = "0001"
-LIGHT2 = "0002"
-LIGHT3 = "0003"
-LIGHT4 = "0004"
+#cmd:finaly no more legecy junk
 exited=0
 noteid=0
 while True:
